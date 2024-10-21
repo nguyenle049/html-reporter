@@ -2,7 +2,8 @@
 ``unittest`` results."""
 
 from .runner import HTMLTestRunner
-
+from .result import HTMLTestResult, TestCaseResult
+from .status import TestStatus
 __all__ = ['HTMLTestRunner']
 
 __author__ = 'Tuan-Phong Nguyen'

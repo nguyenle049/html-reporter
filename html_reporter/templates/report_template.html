@@ -111,6 +111,10 @@
                 <td><a href="javascript:showClassDetail('{{ test_group.cid }}', '{{ test_group.total_count() }}')"
                        class="text-decoration-none">Detail</a>
                 </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
 
             {% for test_case in test_group.test_cases %}
@@ -157,6 +161,72 @@
                         {% endif %}'>{{ test_case.status.name | lower }}</span>
                         {% endif %}
                     </td>
+                    
+                    <!-- insert reqs , otherwise N/A -->
+                    <td id='requirements_{{ test_case.tid }}'class="text-center">                          
+                            <a class="popup_link badge text-decoration-none bg-light text-dark" onfocus='this.blur();'
+                               href="javascript:showTestDetail('div_requirement_{{ test_case.tid }}')">detail</a>
+
+                            <div id='div_requirement_{{ test_case.tid }}' class="popup_window">
+                                <div style='text-align: right; color:red;cursor:pointer'>
+                                    <a onfocus='this.blur();'
+                                       onclick="document.getElementById('div_requirement_{{ test_case.tid }}').style.display = 'none';">
+                                        [x]
+                                    </a>
+                                </div>
+                                <pre>{{ test_case.reqs }}</pre>   <!-- TODO : insert correct attribute of object -->
+                            </div>
+                    </td>
+                    
+                    <!-- insert deviation , otherwise N/A -->
+                    <td id='deviations_{{ test_case.tid }}' class="text-center">                          
+                            <a class="popup_link badge text-decoration-none bg-light text-dark" onfocus='this.blur();'
+                               href="javascript:showTestDetail('div_deviation_{{ test_case.tid }}')">detail</a>
+
+                            <div id='div_deviation_{{ test_case.tid }}' class="popup_window">
+                                <div style='text-align: right; color:red;cursor:pointer'>
+                                    <a onfocus='this.blur();'
+                                       onclick="document.getElementById('div_deviation_{{ test_case.tid }}').style.display = 'none';">
+                                        [x]
+                                    </a>
+                                </div>
+                                <pre>DDDEVIATION {{ test_case.deviation }}</pre>
+                            </div>
+                    </td>
+                    
+                    <!-- insert justification , otherwise N/A -->
+                    <td id='justifications_{{ test_case.tid }}' class="text-center">                          
+                            <a class="popup_link badge text-decoration-none bg-light text-dark" onfocus='this.blur();'
+                               href="javascript:showTestDetail('div_justification_{{ test_case.tid }}')">detail</a>
+
+                            <div id='div_justification_{{ test_case.tid }}' class="popup_window">
+                                <div style='text-align: right; color:red;cursor:pointer'>
+                                    <a onfocus='this.blur();'
+                                       onclick="document.getElementById('div_justification_{{ test_case.tid }}').style.display = 'none';">
+                                        [x]
+                                    </a>
+                                </div>
+                                <pre>JJJJUSTIFICATION {{ test_case.justification }}</pre> <!-- TODO : insert correct attribute of object -->
+                            </div>
+                    </td>
+                    
+                    <!-- insert assessment after justification -->
+                    <td id='result_assessement_{{ test_case.tid }}' class="text-center">                          
+                            {% if test_case.resultAfterJustification == test_case.resultAfterJustification.SUCCESS %}   <!-- TODO : insert correct attribute of object -->
+                            <span class='badge 
+                            bg-success text-white
+                            '>pass</span>
+                            {% elif test_case.resultAfterJustification == test_case.resultAfterJustification.FAILED %}  <!-- TODO : insert correct attribute of object -->
+                            <span class='badge 
+                            bg-danger text-white
+                            '>fail</span>
+                            {% elif test_case.resultAfterJustification == test_case.resultAfterJustification.ERROR %}    <!-- TODO : insert correct attribute of object -->
+                            <span class='badge 
+                            bg-warning text-white
+                            '>error</span>
+                            {% endif %}
+                    </td>
+                    
                 </tr>
             {% endfor %}
 

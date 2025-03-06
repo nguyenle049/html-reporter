@@ -93,7 +93,9 @@
             <th>Fail</th>
             <th>Error</th>
             <th>Skip</th>
-            <th>View</th>
+            <th>Requirements</th>
+            <th>Justification</th>
+            <th>Result after assessment</th>
         </tr>
         </thead>
         {% for test_group in test_groups %}
@@ -104,9 +106,9 @@
                 <th>{{ test_group.fail_count }}</th>
                 <th>{{ test_group.error_count }}</th>
                 <th>{{ test_group.skip_count }}</th>
-                <td><a href="javascript:showClassDetail('{{ test_group.cid }}', '{{ test_group.total_count() }}')"
-                       class="text-decoration-none">Detail</a>
-                </td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
 
             {% for test_case in test_group.test_cases %}
@@ -153,6 +155,54 @@
                         {% endif %}'>{{ test_case.status.name | lower }}</span>
                         {% endif %}
                     </td>
+                    
+                    <td id='requirements_{{ test_case.tid }}'class="text-center">                          
+                            <a class="popup_link badge text-decoration-none bg-light text-dark" onfocus='this.blur();'
+                               href="javascript:showTestDetail('div_requirement_{{ test_case.tid }}')">detail</a>
+
+                            <div id='div_requirement_{{ test_case.tid }}' class="popup_window">
+                                <div style='text-align: right; color:red;cursor:pointer'>
+                                    <a onfocus='this.blur();'
+                                       onclick="document.getElementById('div_requirement_{{ test_case.tid }}').style.display = 'none';">
+                                        [x]
+                                    </a>
+                                </div>
+                                <pre>{{ test_case.reqs }}</pre>
+                            </div>
+                    </td>
+
+                    <!-- insert justification , otherwise N/A -->
+                    <td id='justifications_{{ test_case.tid }}' class="text-center">                          
+                            <a class="popup_link badge text-decoration-none bg-light text-dark" onfocus='this.blur();'
+                               href="javascript:showTestDetail('div_justification_{{ test_case.tid }}')">detail</a>
+
+                            <div id='div_justification_{{ test_case.tid }}' class="popup_window">
+                                <div style='text-align: right; color:red;cursor:pointer'>
+                                    <a onfocus='this.blur();'
+                                       onclick="document.getElementById('div_justification_{{ test_case.tid }}').style.display = 'none';">
+                                        [x]
+                                    </a>
+                                </div>
+                                <pre>{{ test_case.justification }}</pre>
+                            </div>
+                    </td>
+                    
+                    <td id='result_assessement_{{ test_case.tid }}' class="text-center">                          
+                            {% if test_case.resultAfterJustification == test_case.resultAfterJustification.PASS %}
+                            <span class='badge 
+                            bg-success text-white
+                            '>pass</span>
+                            {% elif test_case.resultAfterJustification == test_case.resultAfterJustification.FAIL %}
+                            <span class='badge 
+                            bg-danger text-white
+                            '>fail</span>
+                            {% elif test_case.resultAfterJustification == test_case.resultAfterJustification.ERROR %}
+                            <span class='badge 
+                            bg-warning text-white
+                            '>error</span>
+                            {% endif %}
+                    </td>
+                    
                 </tr>
             {% endfor %}
 

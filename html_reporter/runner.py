@@ -34,6 +34,9 @@ class TestCaseReport:
     desc: str
     status: TestStatus
     detail: str
+    reqs: str
+    resultAfterJustification: str
+    justification: str
 
 
 @dataclass
@@ -261,6 +264,9 @@ class HTMLTestRunner(object):
             desc=desc,
             status=test_status,
             detail=detail,
+            reqs="",
+            justification="",
+            resultAfterJustification=""
         )
 
     @staticmethod
